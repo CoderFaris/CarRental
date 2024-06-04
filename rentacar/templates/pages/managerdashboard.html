@@ -1,0 +1,101 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/manager_dashboard.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center">Manager/Admin Dashboard View - Car Rental</h2>
+        <h2 class="text-center">{{username}}</h2>
+        <p>Rentings count: {{r_length}}</p>
+
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="rentingchart1" class="small-chart" aria-label="RentAria1"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="rentingchart2" class="small-chart" aria-label="RentAria2"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <canvas id="rentingchart3" class="large-chart" aria-label="RentAria3"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const ctx1 = document.getElementById('rentingchart1');
+        const ctx2 = document.getElementById('rentingchart2');
+        const ctx3 = document.getElementById('rentingchart3');
+
+        const UserData = {
+            type: 'bar',
+            data: {
+                labels: ['June', 'July', 'August', 'September', 'October', 'November'],
+                datasets: [{
+                    label: '# of Users in 2024',
+                    data: [{{u_length}}, 19, 3, 5, 2, 3],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const CarData = {
+            type: 'bar',
+            data: {
+                labels: ['June', 'July', 'August', 'September', 'October', 'November'],
+                datasets: [{
+                    label: '# of Cars in 2024',
+                    data: [{{c_length}}, 19, 3, 5, 2, 3],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        const RentingData = {
+            type: 'line',
+            data: {
+                labels: ['June', 'July', 'August', 'September', 'October', 'November'],
+                datasets: [{
+                    label: '# of Rentings in 2024',
+                    data: [{{r_length}}, 19, 3, 5, 2, 3],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx1, UserData);
+        new Chart(ctx2, CarData);
+        new Chart(ctx3, RentingData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+body {
+    background-color: #f8f9fa;
+}
+
+h2 {
+    font-size: 3rem;
+    text-align: center;
+    margin-top: 50px;
+    font-family: "Rubik", sans-serif;
+}
+.hero .btn {
+    margin: 10px;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+}

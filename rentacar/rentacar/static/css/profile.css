@@ -1,0 +1,18 @@
+body {
+    background-color: #000; 
+    color: #fff; 
+}
+.profile-card {
+    background-color: #333;
+    border: none;
+}
+.profile-card .card-body {
+    color: #fff;
+}
+.profile-card .btn {
+    background-color: #007bff;
+    border: none;
+}
+.profile-card .btn:hover {
+    background-color: #0056b3;
+}
