@@ -20,7 +20,7 @@
                             {% csrf_token %}
                             <div class="mb-3">
                                 <label for="{{ form.car_model.id_for_label }}" class="form-label">Car Model</label>
-                                <select name="{{ form.car_model.name }}" id="{{ form.car_model.id_for_label }}" class="form-select">
+                                <select name="{{ form.car_model.name }}" id="{{ form.car_model.id_for_label }}" class="form-select" onchange="updateCost()">
                                     {% for value, label, is_disabled in form.car_model.field.widget.choices %}
                                         <option value="{{ value }}" {% if is_disabled %}disabled{% endif %}>{{ label }}</option>
                                     {% endfor %}
@@ -37,15 +37,46 @@
                                 {{ form.return_date|add_class:"form-control" }}
                                 <div class="invalid-feedback d-block">{{ form.return_date.errors }}</div>
                             </div>
+                            <p class="text-center" id="cost">Cost: 0</p>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-success btn-lg">Rent Now</button>
                             </div>
                         </form>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        cost = {{car_costs|safe}};
+        const default_cost = 0;
+
+        function updateCost() {
+
+
+            const selectEl = document.getElementById('{{ form.car_model.id_for_label }}');
+            const selectedVal = selectEl.value;
+            const costEl = document.getElementById('cost');
+            
+            if (cost[selectedVal]) {
+
+                costEl.textContent = 'Cost (BAM/day): ' + cost[selectedVal];
+
+            }
+
+            else {
+
+                costEl.textContent = 'Cost (BAM/day): ' + default_cost;
+
+            }
+
+
+        }
+
+
+    </script>
 </body>
 </html>

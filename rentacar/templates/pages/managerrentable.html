@@ -26,6 +26,11 @@
             {{ form.car_model.errors }}
             {{ form.car_model|add_class:"form-control" }}
         </div>
+        <div class="form-group">
+            <label for="id_car_model">Cost of the car (BAM/day):</label>
+            {{ form.cost.errors }}
+            {{ form.cost|add_class:"form-control" }}
+        </div>
         <button type="submit" class="btn btn-primary">Add Car</button>
     </form>
 </div>

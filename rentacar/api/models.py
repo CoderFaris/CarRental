@@ -5,6 +5,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Cars(models.Model):
     car_model = models.CharField(max_length=200)
+    cost = models.IntegerField(null=True)
 
     def __str__(self):
         return self.car_model

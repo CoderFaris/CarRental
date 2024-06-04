@@ -107,6 +107,9 @@ def create_rental(request):
     rented_cars = Renting.objects.values_list('car_model_id', flat=True)
 
     cars = Cars.objects.all()
+    serialized_cars = CarSerializer(cars, many=True)
+
+    car_costs = {car.id : car.cost for car in cars}
 
     if request.method == 'POST':
         form = RentingForm(request.POST)
@@ -125,7 +128,7 @@ def create_rental(request):
     car_model_field.choices = [(car_id, car_model) for car_id, car_model, is_disabled in updated_choices]
     car_model_field.widget.choices = updated_choices
 
-    return render(request, 'pages/rentacar.html', {'form' : form, })
+    return render(request, 'pages/rentacar.html', {'form' : form, 'cars' : serialized_cars.data, 'car_costs': car_costs})
 
 @login_required(redirect_field_name="{% url 'login' %}")
 def rented_cars(request):

@@ -26,7 +26,7 @@ class CustomUserChangeForm(UserChangeForm):
 class CarForm(forms.ModelForm):
     class Meta:
         model = Cars
-        fields = ['id', 'car_model']
+        fields = ['id', 'car_model', 'cost']
 
 class RentingForm(forms.ModelForm):
     class Meta:
