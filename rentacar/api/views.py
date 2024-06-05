@@ -10,6 +10,7 @@ from django.http import HttpResponse, JsonResponse, HttpResponseForbidden
 from .permissions import CustomIsAuthenticated, IsManagerOrAdmin
 from .models import Renting, Cars, Notification, UserInfo, Rating
 from .serializers import RentingSerializer, CarSerializer, UserInfoSerializer, RatingSerializer
+from datetime import datetime
 
 from rest_framework import status
 from rest_framework import generics, permissions
@@ -133,9 +134,32 @@ def create_rental(request):
 @login_required(redirect_field_name="{% url 'login' %}")
 def rented_cars(request):
     if request.method == 'GET':
-        cars = Renting.objects.filter(user=request.user)
-        serialized_cars = RentingSerializer(cars, many=True)
-    return render(request, 'pages/rentedcars.html', {'username' : request.user.username, 'cars': serialized_cars.data})
+        rented_cars = Renting.objects.filter(user=request.user)
+        cars_with_diff_and_cost = []
+
+        for rented_car in rented_cars:
+            pick_up_date = rented_car.pick_up_date
+            return_date = rented_car.return_date
+            diff = abs((return_date - pick_up_date).days)
+
+            # Access the related Cars object via the foreign key
+            car = rented_car.car_model
+            total_cost_per_day = car.cost
+            total_cost = diff * total_cost_per_day
+
+            rented_car.total_cost = total_cost
+            rented_car.save()
+
+            serialized_rented_car = RentingSerializer(rented_car).data
+            serialized_rented_car['diff'] = diff
+            serialized_rented_car['total_cost'] = total_cost
+
+            cars_with_diff_and_cost.append(serialized_rented_car)
+
+    return render(request, 'pages/rentedcars.html', {
+        'username': request.user.username, 
+        'cars': cars_with_diff_and_cost
+    })
 
 @login_required(redirect_field_name="{% url 'login' %}")
 def stop_renting(request):
@@ -159,7 +183,7 @@ class ManagerRentableCarsView(APIView):
     def get(self, request):
         cars = Cars.objects.all()
         serialized_cars = CarSerializer(cars, many=True)
-        form = CarForm()  # Instantiate the form for GET request
+        form = CarForm()  
         return render(request, 'pages/managerrentable.html', {'cars': serialized_cars.data, 'form': form})
 
     def post(self, request):

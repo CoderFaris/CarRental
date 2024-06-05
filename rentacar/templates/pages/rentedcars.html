@@ -17,7 +17,7 @@
                 <ul class="list-group list-group-flush">
                     {% for car in cars %}
                         <li class="list-group-item">
-                            <strong>{{ car.car_model_name }}</strong>: From <span class="text-success">{{ car.pick_up_date }}</span> to <span class="text-danger">{{ car.return_date }}</span>
+                            <strong>{{ car.car_model_name }}</strong>: From <span class="text-success">{{ car.pick_up_date }}</span> to <span class="text-danger">{{ car.return_date }}</span> &nbsp;&nbsp;&nbsp;Total amount to pay:  <span class="text-success">{{car.total_cost}}</span>
                         </li>
                     {% endfor %}
                 </ul>

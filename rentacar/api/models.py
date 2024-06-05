@@ -25,6 +25,7 @@ class Renting(models.Model):
     pick_up_date = models.DateField()
     return_date = models.DateField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    total_cost = models.IntegerField(null=True)
 
     def __str__(self):
         return f"Rent {self.id} - {self.car_model}"
