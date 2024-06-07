@@ -286,7 +286,10 @@ def ratings(request):
     serialized_ratings = RatingSerializer(ratings, many=True)
     
     
-    car_ratings = {car.id: ratings.filter(car_model=car).aggregate(average_score=Avg('score'))['average_score'] or 0 for car in cars}
+    car_ratings = {
+    car.id: round(ratings.filter(car_model=car).aggregate(average_score=Avg('score'))['average_score'] or 0, 1)
+    for car in cars
+    }
 
     if request.method == 'POST':
         form = RatingForm(request.POST)
@@ -304,6 +307,16 @@ def ratings(request):
         'form': form,
         'car_ratings': car_ratings
     })
+
+def heropage(request):
+    return render(request, 'pages/heropage.html')
+
+def is_auth(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+    else:
+        return redirect('login')
+
 
         
 

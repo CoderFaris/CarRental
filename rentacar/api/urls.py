@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     # html views
+    path('', views.heropage, name='heropage'),
     path('register/', views.register, name='register'),
     path('login/', views.login_view, name='login'),
     path('home/', views.home, name='home'),
@@ -18,6 +19,7 @@ urlpatterns = [
     path('profile/<str:username>/edit', views.edit_user_profile, name='edit_profile'),
     path('manager-dashboard/', views.ManagerDashboardView.as_view(), name='manager-dashboard'),
     path('ratings/', views.ratings, name='ratings'),
+    
 
     # api views
     path('rentings/', views.RentingListCreateView.as_view(), name='renting-list-create'),
@@ -28,6 +30,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('users/', views.UserListCreateView.as_view(), name='users'),
     path('users/<int:pk>', views.UserDetailView.as_view(), name='user-detail'),
+    path('is_auth/', views.is_auth, name='is-auth'),
     
 
     # errors
