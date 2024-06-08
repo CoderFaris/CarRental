@@ -66,7 +66,7 @@ def register(request):
             return redirect('login')
         else:
             print(form.errors)
-            return HttpResponse('no, you are not normal')
+            
     else:
         form = CustomUserCreationForm()  #just a blank form
     
